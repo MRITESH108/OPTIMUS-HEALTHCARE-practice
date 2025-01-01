@@ -82,7 +82,7 @@
         .loading-message {
             color: orange;
         }
-        .back-btn {
+        .back-btn, .message-btn {
             margin-top: 10px;
             display: inline-block;
             color: white;
@@ -91,6 +91,15 @@
             text-decoration: none;
             border-radius: 5px;
             font-size: 14px; /* Increased font size */
+        }
+        .message-btn {
+            background-color: #631057;
+        }
+        .message-btn:hover {
+            background-color: #0056b3;
+        }
+        .back-btn:hover {
+            background-color: #5a6268;
         }
         #patient-details-container {
             width: 350px;
@@ -123,14 +132,22 @@
             align-items: center;
             margin-top: auto;
         }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 
     <h1>Dr. Herolal Pathology Lab</h1>
     <div class="container">
-        <!-- Back Button to index.html -->
-        <a href="index.html" class="back-btn" id="home-back-btn">← Back to Home</a>
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a href="index.html" class="back-btn" id="home-back-btn">← Back to Home</a>
+            <a href="patholabmessage1.html" class="message-btn">Message Patholab</a>
+        </div>
 
         <!-- Patient List -->
         <div id="patient-list-container" class="patient-list">
