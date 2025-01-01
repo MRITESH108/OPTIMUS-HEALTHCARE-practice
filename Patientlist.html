@@ -276,6 +276,10 @@
                 <li onclick="selectPatient(this, 'Ajay Chaudhary')">Ajay Chaudhary</li>
                 <li onclick="selectPatient(this, 'Karjan Prajapati')">Karjan Prajapati</li>
                 <li onclick="selectPatient(this, 'Alice Johnson')">Alice Johnson</li>
+                <li onclick="selectPatient(this, 'Subhash Tatkre')">Subhash Tatkare</li>
+                <li onclick="selectPatient(this, 'Mahesh Pathak')">Mahesh Pathak</li>
+                <li onclick="selectPatient(this, 'Ankur Warikoo')">Ankur Warikoo</li>
+                <li onclick="selectPatient(this, 'Monu Mahto')">Monu Mahto</li>
             </ul>
         </div>
         <div class="prescription-form" id="prescription-form">
@@ -339,100 +343,112 @@
     </footer>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const doctorData = JSON.parse(localStorage.getItem('doctor'));
+            if (doctorData) {
+                const doctorNames = {
+                    "452819885248": "Dr. Priyanshu Singh",
+                    "565488782776": "Dr. Ritesh Pandey",
+                    "872701014545": "Dr. Nishant Tripathi"
+                };
+                const doctorName = doctorNames[doctorData.id];
+                document.querySelector('header p').textContent = `${doctorName}'s Prescription Slip`;
+                document.getElementById('doctor-name').value = doctorName;
+                document.getElementById('output-doctor-name').textContent = doctorName;
+            }
+        });
+    
         function selectPatient(element, patientName) {
             // Remove 'selected' class from any previously selected patient
             document.querySelectorAll('.patient-list li').forEach(li => li.classList.remove('selected'));
-
+    
             // Add 'selected' class to the clicked patient
             element.classList.add('selected');
-
+    
             // Set the patient name in the form
             document.getElementById('patient-name').value = patientName;
-
+    
             // Display the prescription form and output
             document.getElementById('prescription-form').style.display = 'block';
             document.getElementById('prescription-output').style.display = 'block';
-
+    
             // Update the prescription output
             updatePrescription();
         }
-
+    
         function addMedication() {
-    const medicationsDiv = document.getElementById('medications');
-    const newMedicationDiv = document.createElement('div');
-    newMedicationDiv.className = 'medication-item';
-    newMedicationDiv.innerHTML = `
-        <select class="medication" onchange="updatePrescription()">
-            <option value="">Select Medication</option>
-            <option value="Paracetamol">Paracetamol</option>
-            <option value="Ibuprofen">Ibuprofen</option>
-            <option value="Amoxicillin">Amoxicillin</option>
-        </select>
-        <input type="text" placeholder="Dosage" class="dosage" oninput="updatePrescription()">
-        <button type="button" class="remove-button" onclick="removeItem(this)">Remove</button>
-    `;
-    medicationsDiv.appendChild(newMedicationDiv);
-}
-
-
-function addCheckup() {
-    const checkupsDiv = document.getElementById('checkups');
-    const newCheckupDiv = document.createElement('div');
-    newCheckupDiv.className = 'checkup-item'; // Use the same class for styling
-
-    // Add identical markup for the new checkup item
-    newCheckupDiv.innerHTML = `
-        <select class="checkup" style="padding: 5px; width: 40%; height: 40px;" onchange="updatePrescription()">
-            <option value="">Select Checkup</option>
-            <option value="Blood Test">Blood Test</option>
-            <option value="X-Ray">X-Ray</option>
-            <option value="MRI">MRI</option>
-        </select>
-        <button type="button" class="remove-button" style="width: 150px; margin-bottom: 20px; margin-left: 200px;" onclick="removeItem(this)">Remove</button>
-    `;
-    checkupsDiv.appendChild(newCheckupDiv); // Append the new item
-}
-
-
-
+            const medicationsDiv = document.getElementById('medications');
+            const newMedicationDiv = document.createElement('div');
+            newMedicationDiv.className = 'medication-item';
+            newMedicationDiv.innerHTML = `
+                <select class="medication" onchange="updatePrescription()">
+                    <option value="">Select Medication</option>
+                    <option value="Paracetamol">Paracetamol</option>
+                    <option value="Ibuprofen">Ibuprofen</option>
+                    <option value="Amoxicillin">Amoxicillin</option>
+                </select>
+                <input type="text" placeholder="Dosage" class="dosage" oninput="updatePrescription()">
+                <button type="button" class="remove-button" onclick="removeItem(this)">Remove</button>
+            `;
+            medicationsDiv.appendChild(newMedicationDiv);
+        }
+    
+        function addCheckup() {
+            const checkupsDiv = document.getElementById('checkups');
+            const newCheckupDiv = document.createElement('div');
+            newCheckupDiv.className = 'checkup-item'; // Use the same class for styling
+    
+            // Add identical markup for the new checkup item
+            newCheckupDiv.innerHTML = `
+                <select class="checkup" style="padding: 5px; width: 40%; height: 40px;" onchange="updatePrescription()">
+                    <option value="">Select Checkup</option>
+                    <option value="Blood Test">Blood Test</option>
+                    <option value="X-Ray">X-Ray</option>
+                    <option value="MRI">MRI</option>
+                </select>
+                <button type="button" class="remove-button" style="width: 150px; margin-bottom: 20px; margin-left: 200px;" onclick="removeItem(this)">Remove</button>
+            `;
+            checkupsDiv.appendChild(newCheckupDiv); // Append the new item
+        }
+    
         function removeItem(button) {
             button.parentElement.remove();
             updatePrescription();
         }
-
+    
         function updatePrescription() {
-    const hospitalName = document.getElementById('hospital-name').value;
-    const doctorName = document.getElementById('doctor-name').value;
-    const patientName = document.getElementById('patient-name').value;
-    const medications = document.querySelectorAll('.medication-item');
-    const checkups = document.querySelectorAll('.checkup-item');
-    const instructions = document.getElementById('instructions').value;
-
-    document.getElementById('output-hospital-name').innerText = hospitalName;
-    document.getElementById('output-doctor-name').innerText = doctorName;
-    document.getElementById('output-patient-name').innerText = patientName;
-    document.getElementById('output-instructions').innerText = instructions;
-
-    const medicationsOutput = document.getElementById('output-medications');
-    medicationsOutput.innerHTML = '<p><strong>Medications:</strong></p>';
-    medications.forEach((item, index) => {
-        const medName = item.querySelector('.medication').value;
-        const dosage = item.querySelector('.dosage').value;
-        if (medName && dosage) {
-            medicationsOutput.innerHTML += `<p>${index + 1}. ${medName} - ${dosage}</p>`;
+            const hospitalName = document.getElementById('hospital-name').value;
+            const doctorName = document.getElementById('doctor-name').value;
+            const patientName = document.getElementById('patient-name').value;
+            const medications = document.querySelectorAll('.medication-item');
+            const checkups = document.querySelectorAll('.checkup-item');
+            const instructions = document.getElementById('instructions').value;
+    
+            document.getElementById('output-hospital-name').innerText = hospitalName;
+            document.getElementById('output-doctor-name').innerText = doctorName;
+            document.getElementById('output-patient-name').innerText = patientName;
+            document.getElementById('output-instructions').innerText = instructions;
+    
+            const medicationsOutput = document.getElementById('output-medications');
+            medicationsOutput.innerHTML = '<p><strong>Medications:</strong></p>';
+            medications.forEach((item, index) => {
+                const medName = item.querySelector('.medication').value;
+                const dosage = item.querySelector('.dosage').value;
+                if (medName && dosage) {
+                    medicationsOutput.innerHTML += `<p>${index + 1}. ${medName} - ${dosage}</p>`;
+                }
+            });
+    
+            const checkupsOutput = document.getElementById('output-checkups');
+            checkupsOutput.innerHTML = '<p><strong>Checkups:</strong></p>';
+            checkups.forEach((item, index) => {
+                const checkupType = item.querySelector('.checkup').value;
+                if (checkupType) {
+                    checkupsOutput.innerHTML += `<p>${index + 1}. ${checkupType}</p>`;
+                }
+            });
         }
-    });
-
-    const checkupsOutput = document.getElementById('output-checkups');
-    checkupsOutput.innerHTML = '<p><strong>Checkups:</strong></p>';
-    checkups.forEach((item, index) => {
-        const checkupType = item.querySelector('.checkup').value;
-        if (checkupType) {
-            checkupsOutput.innerHTML += `<p>${index + 1}. ${checkupType}</p>`;
-        }
-    });
-}
-
+    
         function submitPrescription() {
             const doctorName = document.getElementById('doctor-name').value;
             const patientName = document.getElementById('patient-name').value;
@@ -443,19 +459,19 @@ function addCheckup() {
             const checkups = Array.from(document.querySelectorAll('.checkup-item')).map(item => item.querySelector('.checkup').value).filter(checkup => checkup);
             const instructions = document.getElementById('instructions').value;
             const date = new Date().toISOString().split('T')[0]; // Current date in YYYY-MM-DD format
-
+    
             // Create a prescription object
             const prescription = { doctorName, patientName, medications, checkups, instructions, date };
-
+    
             // Get existing history from localStorage
             const history = JSON.parse(localStorage.getItem('patientHistory')) || [];
-
+    
             // Add the new prescription to the history
             history.push(prescription);
-
+    
             // Save the updated history back to localStorage
             localStorage.setItem('patientHistory', JSON.stringify(history));
-
+    
             alert('Prescription Submitted!');
             const selectedPatient = document.querySelector('.patient-list li.selected');
             if (selectedPatient) {
