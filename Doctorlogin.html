@@ -154,14 +154,24 @@
     </div>
 
     <script>
-        // Doctor Login Function
+        const doctors = {
+            "452819885248": { password: "priyan17singh", department: "Cardiology" },
+            "565488782776": { password: "mritesh108", department: "Neurology" },
+            "872701014545": { password: "khargosh", department: "Orthopedics" }
+            // Add more doctors as needed
+        };
+
         function loginDoctor() {
             const doctorID = document.getElementById('doctor-id').value;
             const password = document.getElementById('password').value;
 
             if (doctorID && password) {
-                localStorage.setItem('doctor', doctorID);
-                window.location.href = "doctorpage1.html"; // Redirect to the doctor dashboard
+                if (doctors[doctorID] && doctors[doctorID].password === password) {
+                    localStorage.setItem('doctor', JSON.stringify({ id: doctorID, department: doctors[doctorID].department }));
+                    window.location.href = "doctorpage1.html"; // Redirect to the doctor dashboard
+                } else {
+                    alert("Invalid ID or Password.");
+                }
             } else {
                 alert("Please enter all details.");
             }
