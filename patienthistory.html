@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient History</title>
+    <title>OPTIMUS HEALTHCARE</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -69,12 +69,30 @@
         .download-button:hover {
             background-color: #0056b3;
         }
+        .back-button {
+            margin: 20px;
+            margin-left: 700px;
+            width: 50px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            text-align: center;
+        }
+        .back-button:hover {
+            background-color: #2980b9;
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Patient History</h1>
     </header>
+    <a href="patientpage1.html" class="back-button">Back</a>
     <div class="container">
         <h2>History</h2>
         <div id="history-content">
@@ -82,12 +100,14 @@
         </div>
         <button class="download-button" onclick="downloadPDF()">Download as PDF</button>
     </div>
+        <a href="patientpage1.html" class="back-button">Back</a>
     <footer>
-        <p>&copy; 2024 Patient History Application</p>
+        <p>&copy; 2024 OPTIMUS HEALTHCARE | ALL RIGHTS RESERVED </p>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script>
+        
         document.addEventListener('DOMContentLoaded', () => {
             // Retrieve history from localStorage
             const history = JSON.parse(localStorage.getItem('patientHistory')) || [];
